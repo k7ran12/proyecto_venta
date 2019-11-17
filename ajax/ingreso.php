@@ -74,7 +74,7 @@ switch ($_GET["op"]) {
 		break;
 
     case 'listar':
-		$rspta=$ingreso->listar();
+		$rspta=$ingreso->listar($_SESSION['id_sucursal']);
 		$data=Array();
 
 		while ($reg=$rspta->fetch_object()) {
