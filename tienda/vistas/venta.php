@@ -140,29 +140,18 @@ if ($_SESSION['ventas']==1) {
           <h4 class="modal-title">Seleccione un Articulo</h4>
         </div>
         <div class="modal-body">
-          <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
-            <thead>
-              <th>Opciones</th>
-              <th>Nombre</th>
-              <th>Categoria</th>
-              <th>Código</th>
-              <th>Stock</th>
-              <th>Precio Venta</th>
-              <th>Imagen</th>
-            </thead>
-            <tbody>
+          <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#">Producto</a></li>
+            <li role="presentation"><a href="#">Lunas</a></li>
+            <li role="presentation"><a href="#">Consulta</a></li>
+            <li role="presentation"><a href="#">Extras</a></li>
+          </ul>
+          <div id="tabla">
               
-            </tbody>
-            <tfoot>
-              <th>Opciones</th>
-              <th>Nombre</th>
-              <th>Categoria</th>
-              <th>Código</th>
-              <th>Stock</th>
-              <th>Precio Venta</th>
-              <th>Imagen</th>
-            </tfoot>
-          </table>
+          </div>
+          <div id="datos">
+            
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn btn-default" type="button" data-dismiss="modal">Cerrar</button>
@@ -171,6 +160,33 @@ if ($_SESSION['ventas']==1) {
     </div>
   </div>
   <!-- fin Modal-->
+
+  <!-- Tabla de Articulos -->
+
+  <table id="tblarticulos" class="table table-striped table-bordered table-condensed table-hover">
+              <thead>
+                <th>Opciones</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Código</th>
+                <th>Stock</th>
+                <th>Precio Venta</th>
+                <th>Imagen</th>
+              </thead>
+              <tbody>
+                
+              </tbody>
+              <tfoot>
+                <th>Opciones</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Código</th>
+                <th>Stock</th>
+                <th>Precio Venta</th>
+                <th>Imagen</th>
+              </tfoot>
+    </table>
+  
 <?php 
 }else{
  require 'noacceso.php'; 

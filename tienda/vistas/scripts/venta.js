@@ -1,9 +1,37 @@
+$("#tabla").html($('#tblarticulos').show());   
+  $(".nav li").on("click", function(){
+   		$(".nav li").removeClass("active");
+   		$(this).addClass('active');
+   		console.log($(this).text());
+   		$("#datos").empty();
+   		if ($(this).text() == "Lunas") {
+   			$("#tblarticulos").hide();
+   			$("#tblarticulos_wrapper").hide();
+   			$("#datos").append('<div id="Lunas"><h1>Lunas</h1><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Nombre</label><input class="form-control" type="hidden" name="idcategoria" id="idcategoria">      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required></div><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Descripcion</label><input class="form-control" type="text" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripcion"></div><div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12"><button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button></div></div>');
+   		}
+   		else if ($(this).text() == "Consulta") {
+   			$("#tblarticulos").hide();
+   			$("#tblarticulos_wrapper").hide();
+   			$("#datos").append('<div id="Consulta"><h1>Consulta</h1><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Nombre</label><input class="form-control" type="hidden" name="idcategoria" id="idcategoria">      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required></div><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Descripcion</label><input class="form-control" type="text" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripcion"></div><div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12"><button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button></div></div>');
+   		}
+   		else if ($(this).text() == "Extras") {
+   			$("#tblarticulos").hide();
+   			$("#tblarticulos_wrapper").hide();
+   			$("#datos").append('<div id="Extras"><h1>Extras</h1><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Nombre</label><input class="form-control" type="hidden" name="idcategoria" id="idcategoria">      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required></div><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Descripcion</label><input class="form-control" type="text" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripcion"></div><div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12"><button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button></div></div>');
+   		}
+   		else{	 			
+   			$('#tblarticulos').show();
+   			$("#tblarticulos_wrapper").show();   			
+   		}
+   })
+
 var tabla;
 
 //funcion que se ejecuta al inicio
 function init(){
    mostrarform(false);
    listar();
+
 
    $("#formulario").on("submit",function(e){
    	guardaryeditar(e);

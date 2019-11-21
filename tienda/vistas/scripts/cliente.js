@@ -10,6 +10,20 @@ function init(){
    });
 }
 
+function buscar_datos(){
+	var v_dni = $("#num_documento").val();
+
+  $.ajax({
+	  url: "../../nombres/consulta.php",
+	  type:"POST",
+	  data: { dni : v_dni},
+	  success: function(data){
+	    console.log(JSON.stringify(data));
+	    $("#nombre").val(data.nombres);
+	  }
+	})
+}
+
 //funcion limpiar
 function limpiar(){
 
@@ -41,6 +55,8 @@ function cancelarform(){
 	limpiar();
 	mostrarform(false);
 }
+
+
 
 //funcion listar
 function listar(){

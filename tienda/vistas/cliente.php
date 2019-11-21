@@ -50,10 +50,8 @@ if ($_SESSION['ventas']==1) {
 <div class="panel-body" style="height: 400px;" id="formularioregistros">
   <form action="" name="formulario" id="formulario" method="POST">
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
-      <label for="">Nombre</label>
-      <input class="form-control" type="hidden" name="idpersona" id="idpersona">
-      <input class="form-control" type="hidden" name="tipo_persona" id="tipo_persona" value="Cliente">
-      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del cliente" required>
+      <label for="">Número Documento</label>
+      <input class="form-control" type="text" name="num_documento" id="num_documento" maxlength="20" placeholder="Número de Documento">
     </div>
      <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Tipo Dcumento</label>
@@ -63,10 +61,12 @@ if ($_SESSION['ventas']==1) {
        <option value="CEDULA">CEDULA</option>
      </select>
     </div>
-     <div class="form-group col-lg-6 col-md-6 col-xs-12">
-      <label for="">Número Documento</label>
-      <input class="form-control" type="text" name="num_documento" id="num_documento" maxlength="20" placeholder="Número de Documento">
-    </div>
+    <div class="form-group col-lg-6 col-md-6 col-xs-12">
+      <label for="">Nombre</label>
+      <input class="form-control" type="hidden" name="idpersona" id="idpersona">
+      <input class="form-control" type="hidden" name="tipo_persona" id="tipo_persona" value="Cliente">
+      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del cliente" required>
+    </div>     
     <div class="form-group col-lg-6 col-md-6 col-xs-12">
       <label for="">Direccion</label>
       <input class="form-control" type="text" name="direccion" id="direccion" maxlength="70" placeholder="Direccion">
@@ -83,6 +83,8 @@ if ($_SESSION['ventas']==1) {
       <button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button>
 
       <button class="btn btn-danger" onclick="cancelarform()" type="button"><i class="fa fa-arrow-circle-left"></i> Cancelar</button>
+
+      <button class="btn btn-success" type="button" id="buscar_persona" onclick="buscar_datos()"><i class="fas fa-search"></i> Buscar</button>
     </div>
   </form>
 </div>
