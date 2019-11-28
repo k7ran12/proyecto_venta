@@ -10,8 +10,8 @@ public function __construct(){
 }
 
 //metodo insertar regiustro
-public function insertar($tipo_persona,$nombre,$tipo_documento,$num_documento,$direccion,$telefono,$email){
-	$sql="INSERT INTO persona (tipo_persona,nombre,tipo_documento,num_documento,direccion,telefono,email) VALUES ('$tipo_persona','$nombre','$tipo_documento','$num_documento','$direccion','$telefono','$email')";
+public function insertar($tipo_persona,$nombre, $apellido_paterno, $apellido_materno,$tipo_documento,$num_documento,$direccion,$telefono,$email){
+	$sql="INSERT INTO persona (tipo_persona,nombre, apellido_paterno, apellido_materno,tipo_documento,num_documento,direccion,telefono,email) VALUES ('$tipo_persona','$nombre', '$apellido_paterno', '$apellido_materno','$tipo_documento','$num_documento','$direccion','$telefono','$email')";
 	return ejecutarConsulta($sql);
 }
 
