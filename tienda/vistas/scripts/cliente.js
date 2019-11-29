@@ -4,16 +4,43 @@ var tabla;
 function init(){
    mostrarform(false);
    listar();
+   listarArticulos();
 
    $("#formulario").on("submit",function(e){
    	guardaryeditar(e);
    });
 
+   $(".nav li").on("click", function(){
+   		$(".nav li").removeClass("active");
+   		$(this).addClass('active');
+   		console.log($(this).text());
+   		$("#factura_datos").empty();
+   		if ($(this).text() == "Lunas") {
+   			$("#tblarticulos").hide();
+   			$("#tblarticulos_wrapper").hide();
+   			$("#factura_datos").append('<div id="Lunas"><h1>Lunas</h1><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Nombre</label><input class="form-control" type="hidden" name="idcategoria" id="idcategoria">      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required></div><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Descripcion</label><input class="form-control" type="text" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripcion"></div><div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12"><button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button></div></div>');
+   		}
+   		else if ($(this).text() == "Consulta") {
+   			$("#tblarticulos").hide();
+   			$("#tblarticulos_wrapper").hide();
+   			$("#factura_datos").append('<div id="Consulta"><h1>Consulta</h1><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Nombre</label><input class="form-control" type="hidden" name="idcategoria" id="idcategoria">      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required></div><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Descripcion</label><input class="form-control" type="text" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripcion"></div><div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12"><button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button></div></div>');
+   		}
+   		else if ($(this).text() == "Extras") {
+   			$("#tblarticulos").hide();
+   			$("#tblarticulos_wrapper").hide();
+   			$("#factura_datos").append('<div id="Extras"><h1>Extras</h1><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Nombre</label><input class="form-control" type="hidden" name="idcategoria" id="idcategoria">      <input class="form-control" type="text" name="nombre" id="nombre" maxlength="50" placeholder="Nombre" required></div><div class="form-group col-lg-6 col-md-6 col-xs-12"><label for="">Descripcion</label><input class="form-control" type="text" name="descripcion" id="descripcion" maxlength="256" placeholder="Descripcion"></div><div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12"><button class="btn btn-primary" type="submit" id="btnGuardar"><i class="fa fa-save"></i>  Guardar</button></div></div>');
+   		}
+   		else{	 			
+   			$('#tblarticulos').show();
+   			$("#tblarticulos_wrapper").show();   			
+   		}
+   })
+
    $( "#tipo_documento" ).change(function() {
    	//alert($(this).val());
 	  if ($(this).val() == "RUC") {
 	  	$("#ruc_dni").empty();
-	  	$("#ruc_dni").html('<label for="">Nombre</label><input class="form-control" type="hidden" name="idpersonad" i="idpersona"><input class="form-control" type="hidden" name="tipo_persona" id="tipo_persona" value="Cliente"><input class="form-control" type="text" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del cliente" required>');
+	  	$("#ruc_dni").html('<label for="">Nombre</label><input class="form-control" type="hidden" name="idpersonad" id="idpersona"><input class="form-control" type="hidden" name="tipo_persona" id="tipo_persona" value="Cliente"><input class="form-control" type="text" name="nombre" id="nombre" maxlength="100" placeholder="Nombre del cliente" required>');
 	  	$("#direccion").val("");
 	  	$("#num_documento").val("");
 	  }else{
@@ -115,6 +142,32 @@ function cancelarform(){
 	mostrarform(false);
 }
 
+//Listar productos
+
+//funcion listar
+function listarArticulos(){
+	tabla=$('#tblarticulos').dataTable({
+		"aProcessing": true,//activamos el procedimiento del datatable
+		"aServerSide": true,//paginacion y filrado realizados por el server
+		dom: 'Bfrtip',//definimos los elementos del control de la tabla
+		buttons: [
+
+		],
+		"ajax":
+		{
+			url:'../ajax/venta.php?op=listarArticulos',
+			type: "get",
+			dataType : "json",
+			error:function(e){
+				console.log(e.responseText);
+			}
+		},
+		"bDestroy":true,
+		"iDisplayLength":5,//paginacion
+		"order":[[0,"desc"]]//ordenar (columna, orden)
+	}).DataTable();
+}
+
 
 
 //funcion listar
@@ -166,9 +219,76 @@ function guardaryeditar(e){
      limpiar();
 }
 
+function agregarDetalle(idarticulo,articulo,precio_venta){
+	var cantidad=1;
+	var descuento=0;
+	var impuesto=18;
+	var cont=0;
+	var detalles=0;
+
+	if (idarticulo!="") {
+		var subtotal=cantidad*precio_venta;
+		var fila='<tr class="filas" id="fila'+cont+'">'+
+        '<td><button type="button" class="btn btn-danger" onclick="eliminarDetalle('+cont+')">X</button></td>'+
+        '<td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td>'+
+        '<td><input type="number" name="cantidad[]" id="cantidad[]" value="'+cantidad+'"></td>'+
+        '<td><input type="number" name="precio_venta[]" id="precio_venta[]" value="'+precio_venta+'"></td>'+
+        '<td><input type="number" name="descuento[]" value="'+descuento+'"></td>'+
+        '<td><span id="subtotal'+cont+'" name="subtotal">'+subtotal+'</span></td>'+
+        '<td><button type="button" onclick="modificarSubtotales()" class="btn btn-info"><i class="fa fa-refresh"></i></button></td>'+
+		'</tr>';
+		cont++;
+		detalles++;
+		$('#detalles').append(fila);
+		modificarSubtotales();
+
+	}else{
+		alert("error al ingresar el detalle, revisar las datos del articulo ");
+	}
+}
+
+function eliminarDetalle(indice){
+$("#fila"+indice).remove();
+calcularTotales();
+detalles=detalles-1;
+
+}
+function calcularTotales(){
+	var sub = document.getElementsByName("subtotal");
+	var total=0.0;
+
+	for (var i = 0; i < sub.length; i++) {
+		total += document.getElementsByName("subtotal")[i].value;
+	}
+	$("#total").html("S/." + total);
+	$("#total_venta").val(total);
+	evaluar();
+}
+
+function modificarSubtotales(){
+	var cant=document.getElementsByName("cantidad[]");
+	var prev=document.getElementsByName("precio_venta[]");
+	var desc=document.getElementsByName("descuento[]");
+	var sub=document.getElementsByName("subtotal");
+
+
+	for (var i = 0; i < cant.length; i++) {
+		var inpV=cant[i];
+		var inpP=prev[i];
+		var inpS=sub[i];
+		var des=desc[i];
+
+
+		inpS.value=(inpV.value*inpP.value)-des.value;
+		document.getElementsByName("subtotal")[i].innerHTML=inpS.value;
+	}
+
+	calcularTotales();
+}
+
 function mostrar(idpersona){
 	$("#datos").show();
-	$("#gcp").html('<div class="btn-group" role="group" style="margin-top: 3%;"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#largeModal"><i class="fas fa-glasses"></i>&nbsp;Graduacion</button><button type="button" class="btn btn-default" data-toggle="modal" data-target="#registrar_consultas"><i class="fas fa-bullhorn"></i>&nbsp;Consultas</button><button type="button" class="btn btn-success" data-toggle="modal" data-target="#generar_factura">Pedidos Fac. <i class="fas fa-dollar-sign"></i></button></div>');
+	$("#gcp").html('<div class="btn-group" role="group" style="margin-top: 3%;"><button type="button" class="btn btn-default" data-toggle="modal" data-target="#largeModal"><i class="fas fa-glasses"></i>&nbsp;Graduacion</button><button type="button" class="btn btn-default" data-toggle="modal" data-target="#registrar_consultas"><i class="fas fa-bullhorn"></i>&nbsp;Consultas</button><button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal_venta">Pedidos Fac. <i class="fas fa-dollar-sign"></i></button></div>');
 	$.post("../ajax/persona.php?op=mostrar",{idpersona : idpersona},
 		function(data,status)
 		{
